@@ -7,9 +7,11 @@ function Auth() {
     <>
       <Tabs>
         <div label='Login'>
-          <Login />
+          <Login buttonText="Login"/>
         </div>
-        <div label='Register'></div>
+        <div label='Register'>
+          <Login buttonText="Register"/>
+        </div>
       </Tabs>
     </>
   );
@@ -64,7 +66,7 @@ function Tab({ onClick, activeTab, label }) {
       className={`flex-1 text-center py-3 font-bold cursor-pointer ${
         activeTab === label
           ? "text-purple-900 border-r border-t border-l border-purple-800"
-          : "bg-purple-800 text-white"
+          : "bg-purple-600 text-white"
       }`}
       onClick={(e) => onClick(label)}
     >
