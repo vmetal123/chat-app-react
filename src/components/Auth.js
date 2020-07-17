@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 import Login from "./Login";
+import AUTH from '../config/Constants';
 import PropTypes from "prop-types";
 
 function Auth() {
-  const [activeTab, setActiveTab] = useState("Login");
+  const [activeTab, setActiveTab] = useState(AUTH.LOGIN);
 
   return (
     <>
       <Tabs>
-        <Tab activeTab={activeTab} label='Login' onClick={setActiveTab}>
-          <Login buttonText='Login' />
+        <Tab activeTab={activeTab} label={AUTH.LOGIN} onClick={setActiveTab}>
+          <Login buttonText={AUTH.LOGIN} />
         </Tab>
-        <Tab activeTab={activeTab} label='Register' onClick={setActiveTab}>
-          <Login buttonText='Register' />
+        <Tab activeTab={activeTab} label={AUTH.REGISTER} onClick={setActiveTab}>
+          <Login buttonText={AUTH.REGISTER} />
         </Tab>
       </Tabs>
     </>
@@ -21,7 +22,7 @@ function Auth() {
 
 export default Auth;
 
-function Tabs({ children, label, activeTab }) {
+function Tabs({ children }) {
   Tabs.propsType = {
     children: PropTypes.instanceOf(Array).isRequired,
   };
@@ -34,7 +35,7 @@ function Tabs({ children, label, activeTab }) {
             return child;
           })}
         </ul>
-        <div className='border-l border-r border-b border-purple-800'>
+        <div className='border-l border-r border-b border-purple-900'>
           {children.map((child) => {
             const { label, activeTab } = child.props;
             if (label !== activeTab) return undefined;
@@ -57,8 +58,8 @@ function Tab({ onClick, activeTab, label }) {
     <li
       className={`flex-1 text-center py-3 font-bold cursor-pointer ${
         activeTab === label
-          ? "text-purple-900 border-r border-t border-l border-purple-800"
-          : "bg-purple-600 text-white border-b border-purple-800"
+          ? "text-purple-900 border-r border-t border-l border-purple-900"
+          : "bg-purple-900 text-white border-b border-purple-900"
       }`}
       onClick={(e) => onClick(label)}
     >
