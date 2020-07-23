@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Button from "./shared/Button";
 import { register, login } from "../services/AuthService";
-import AUTH from "../config/Constants";
 import PropTypes from "prop-types";
-import useLocalStorage from "../hooks/useLocalStorage";
+import AUTH from '../config/Constants';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 function Login({ buttonText }) {
   Login.propsType = {
@@ -13,37 +13,38 @@ function Login({ buttonText }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {}, []);
+  const [token, setToken] = useLocalStorage('token','');
+  const [username, setUsername] = useLocalStorage('username', '');
 
   function handleRegister() {
-    if (buttonText === AUTH.REGISTER) {
-      setIsLoading(true);
+    setIsLoading(true);
 
-      register({ email, password })
-        .then((res) => console.log(res))
-        .then((error) => console.log(error));
+    register({ email, password })
+      .then((res) => console.log(res))
+      .then((error) => console.log(error));
 
-      setIsLoading(false);
-    }
+    setIsLoading(false);
+  }
 
-    if (buttonText === AUTH.LOGIN) {
-      setIsLoading(true);
+  function cleanInputs() {
+    setEmail("");
+    setPassword("");
+  }
 
-      login({ email, password })
-        .then((res) => {
-          const {email, token, success} = res;
-          if(success) {
-            
-          }
-        })
-        .then((error) => console.log(error));
+  function handleLogin() {
+    setIsLoading(true);
 
-      setIsLoading(false);
-    }
+    login({ email, password })
+      .then((res) => {
+        const { email, token, success } = res;
+        if (success) {
+          setToken(token);
+          setUsername(email);
+        }
+      })
+      .then((error) => console.log(error));
 
-    setEmail('');
-    setPassword('');
+    setIsLoading(false);
   }
 
   return (
@@ -63,11 +64,19 @@ function Login({ buttonText }) {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button
-          children={buttonText}
-          isLoading={isLoading}
-          onClick={handleRegister}
-        />
+        {buttonText === AUTH.LOGIN ? (
+          <Button
+            children={buttonText}
+            isLoading={isLoading}
+            onClick={handleLogin}
+          />
+        ) : (
+          <Button
+            children={buttonText}
+            isLoading={isLoading}
+            onClick={handleRegister}
+          />
+        )}
       </div>
     </div>
   );

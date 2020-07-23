@@ -20,7 +20,6 @@ export const register = async ({email, password}) => {
 }
 
 export const login = async ({email, password}) => {
-    debugger;
     try {
         const url = `${Config.apiEndpoint}api/v1/Auth`;
         const response = await fetch(url, {
