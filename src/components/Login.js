@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import Button from "./shared/Button";
 import { register, login } from "../services/AuthService";
 import PropTypes from "prop-types";
-import AUTH from '../config/Constants';
-import useLocalStorage from '../hooks/useLocalStorage';
+import AUTH from "../config/Constants";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 function Login({ buttonText }) {
   Login.propsType = {
@@ -13,10 +13,11 @@ function Login({ buttonText }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [token, setToken] = useLocalStorage('token','');
-  const [username, setUsername] = useLocalStorage('username', '');
+  const [token, setToken] = useLocalStorage("token", "");
+  const [username, setUsername] = useLocalStorage("username", "");
+  const [errors, setErrors] = useState([]);
 
-  function handleRegister() {
+  const handleRegister = () => {
     setIsLoading(true);
 
     register({ email, password })
@@ -24,14 +25,14 @@ function Login({ buttonText }) {
       .then((error) => console.log(error));
 
     setIsLoading(false);
-  }
+  };
 
-  function cleanInputs() {
+  const cleanInputs = () => {
     setEmail("");
     setPassword("");
-  }
+  };
 
-  function handleLogin() {
+  const handleLogin = () => {
     setIsLoading(true);
 
     login({ email, password })
@@ -45,7 +46,15 @@ function Login({ buttonText }) {
       .then((error) => console.log(error));
 
     setIsLoading(false);
-  }
+  };
+
+  const handleErrors = (errors) => {
+    if (Array.isArray(errors)) {
+      setErrors(errors);
+    } else {
+      setErrors([errors]);
+    }
+  };
 
   return (
     <div className='w-full max-w-md m-auto pt-5'>
